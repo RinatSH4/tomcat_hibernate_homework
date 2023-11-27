@@ -66,14 +66,9 @@ public class UserDAO {
         EntityTransaction entityTransaction = entityManager.getTransaction();
         entityTransaction.begin();
 
-        String query = "SELECT u FROM User u WHERE u.username = :name";
+        User user = entityManager.find(User.class, find(username).getId());
 
-        TypedQuery<User> typedQuery = entityManager.createQuery(query, User.class);
-        typedQuery.setParameter("name", username);
-
-        User user = typedQuery.getSingleResult();
-        User dUser = entityManager.find(User.class, user.getId());
-        entityManager.remove(dUser);
+        entityManager.remove(user);
         entityTransaction.commit();
     }
 }
